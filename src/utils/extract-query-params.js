@@ -7,7 +7,6 @@ export const extractQueryParams = (query) => {
 
       queryParams[key] = value;
 
-      console.log("🚀 ~ .reduce ~ queryParams:", queryParams);
       return queryParams;
     }, {});
 };
