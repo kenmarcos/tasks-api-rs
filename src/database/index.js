@@ -50,6 +50,26 @@ export class Database {
     return data;
   }
 
+  update(table, id, data) {
+    const { title, description } = data;
+
+    const rowIndex = this.#database[table].findIndex((row) => row.id === id);
+
+    if (rowIndex > -1) {
+      if (title) this.#database[table][rowIndex].title = title;
+      if (description)
+        this.#database[table][rowIndex].description = description;
+
+      this.#database[table][rowIndex].updated_at = new Date();
+
+      this.#persist();
+
+      return this.#database[table][rowIndex];
+    }
+
+    return null;
+  }
+
   delete(table, id) {
     const rowIndex = this.#database[table].findIndex((row) => row.id === id);
 
