@@ -1,4 +1,5 @@
 import { Database } from "../database/index.js";
+import { bodyValidation } from "../middlewares/body-validation.js";
 import { buildRoutePath } from "../utils/build-route-path.js";
 import { randomUUID } from "node:crypto";
 
@@ -10,6 +11,14 @@ export const routes = [
     path: buildRoutePath("/tasks"),
     handler: (req, res) => {
       const { title, description } = req.body;
+
+      if (title === undefined || description === undefined) {
+        const messagesError = bodyValidation(title, description);
+
+        return res
+          .writeHead(400)
+          .end(JSON.stringify({ message: messagesError }));
+      }
 
       const user = database.insert("tasks", {
         id: randomUUID(),
@@ -50,6 +59,14 @@ export const routes = [
     handler: (req, res) => {
       const { title, description } = req.body;
       const { id: taskId } = req.params;
+
+      if (title === undefined || description === undefined) {
+        const messagesError = bodyValidation(title, description);
+
+        return res
+          .writeHead(400)
+          .end(JSON.stringify({ message: messagesError }));
+      }
 
       const updatedTask = database.update("tasks", taskId, {
         title,
