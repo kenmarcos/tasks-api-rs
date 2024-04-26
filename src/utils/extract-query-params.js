@@ -1,5 +1,5 @@
 export const extractQueryParams = (query) => {
-  query
+  return query
     .substr(1)
     .split("&")
     .reduce((queryParams, param) => {
@@ -7,6 +7,7 @@ export const extractQueryParams = (query) => {
 
       queryParams[key] = value;
 
+      console.log("🚀 ~ .reduce ~ queryParams:", queryParams);
       return queryParams;
     }, {});
 };
