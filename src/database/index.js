@@ -60,7 +60,21 @@ export class Database {
       if (description)
         this.#database[table][rowIndex].description = description;
 
-      this.#database[table][rowIndex].updated_at = new Date();
+      this.#database[table][rowIndex].updated_at = new Date().toISOString();
+
+      this.#persist();
+
+      return this.#database[table][rowIndex];
+    }
+
+    return null;
+  }
+
+  completeTask(table, id) {
+    const rowIndex = this.#database[table].findIndex((row) => row.id === id);
+
+    if (rowIndex > -1) {
+      this.#database[table][rowIndex].completed_at = new Date().toISOString();
 
       this.#persist();
 

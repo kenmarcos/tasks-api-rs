@@ -67,6 +67,24 @@ export const routes = [
   },
 
   {
+    method: "PATCH",
+    path: buildRoutePath("/tasks/:id/complete"),
+    handler: (req, res) => {
+      const { id: taskId } = req.params;
+
+      const completedTask = database.completeTask("tasks", taskId);
+
+      if (!completedTask) {
+        return res
+          .writeHead(404)
+          .end(JSON.stringify({ message: "Task not found" }));
+      }
+
+      return res.end(JSON.stringify(completedTask));
+    },
+  },
+
+  {
     method: "DELETE",
     path: buildRoutePath("/tasks/:id"),
     handler: (req, res) => {
